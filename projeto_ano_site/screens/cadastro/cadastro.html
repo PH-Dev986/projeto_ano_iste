@@ -1,0 +1,85 @@
+<!-- <?php
+
+// Database connection details (replace with your actual credentials)
+$servername = "localhost";
+$username = "email";
+$password = "senha";
+$dbname = "registro_do_usuário";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+  die("Connection failed: " . $conn->connect_error);
+}
+
+// Get form data (sanitize user input before using)
+$username= htmlspecialchars($_POST["nome_completo"]);
+$email = htmlspecialchars($_POST["email"]);
+$password = password_hash($_POST["password"], PASSWORD_DEFAULT); // Hash password for security
+
+// Check if email already exists
+$sql = "SELECT email FROM users WHERE email=?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $email);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+  echo "Error: Email already exists";
+} else {
+  // Insert user data into database
+  $sql = "INSERT INTO users (fullname, email, password) VALUES (?, ?, ?)";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("sss", $fullname, $email, $password);
+  $stmt->execute();
+
+  echo "Registration successful!";
+}
+
+$conn->close();
+
+?> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="cadastro.css">
+    <title>Cadastro</title>
+</head>
+<body>
+    <div class="container">
+        <a href="../home/home.html" ><img src="../../img/logo-site.png" alt="Logo do Projeto" class="logo"></a>
+        <h1>Cadastro</h1>
+        <form id="register-form">
+            <div class="form-group">
+                <label for="fullname">Nome Completo:</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Digite seu nome completo" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirme a Senha:</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirme sua senha" required>
+            </div>
+           <a href="../home/home.html"> <button  type="submit">Cadastrar</button></a>
+        </form>
+        <div class="register-link">
+            <a href="../login/login.html">Já possui uma conta? Faça login</a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.instagram.com/" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="https://discord.com/" target="_blank"><i class="fab fa-discord"></i></a>
+        </div>
+    </div>
+</body>
+</html>
